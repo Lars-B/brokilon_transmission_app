@@ -1,0 +1,70 @@
+name: Build Flet App
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flet
+
+      - name: Build Flet app
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            flet build windows
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            flet build macos
+          else
+            flet build linux
+          fi
+
+      - name: Locate build output
+        shell: bash
+        run: |
+          echo "Build output:"
+          ls -R build || true
+
+      - name: Zip output (Linux/macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          cd build
+          zip -r transmission-app-${{ runner.os }}.zip .
+
+      - name: Zip output (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build\* -DestinationPath build\transmission-app-Windows.zip
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*.zip
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
