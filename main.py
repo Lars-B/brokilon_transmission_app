@@ -1,4 +1,5 @@
 import flet as ft
+
 from gui.layout import build_ui
 
 
