@@ -1,4 +1,4 @@
-flet
+flet[all]
 pandas
 click
 brokilon @ git+https://github.com/Lars-B/pyccd@main

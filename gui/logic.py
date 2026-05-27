@@ -1,6 +1,6 @@
 import threading
 
-from brokilon.ccd.cli.breath_helper import process_trees_file
+import brokilon.ccd.cli.breath_helper
 
 
 def run_analysis_async(params, on_log, on_progress, on_done, on_error):
@@ -16,7 +16,7 @@ def run_analysis_async(params, on_log, on_progress, on_done, on_error):
             def progress(i, total):
                 on_progress(i, total)
 
-            result = process_trees_file(
+            result = brokilon.ccd.cli.breath_helper.process_trees_file(
                 trees_file=params["trees_file"],
                 output=params["output"],
                 burn_in=params["burn_in"],
