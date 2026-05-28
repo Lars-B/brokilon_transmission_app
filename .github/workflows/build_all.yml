@@ -40,12 +40,6 @@ jobs:
             artifact_path: build/windows
             needs_linux_deps: false
 
-          - name: web
-            runner: ubuntu-latest
-            build_cmd: "flet build web"
-            artifact_path: build/web
-            needs_linux_deps: false
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.0

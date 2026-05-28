@@ -1,4 +1,4 @@
-flet[all]
+flet
 pandas
 click
-brokilon @ git+https://github.com/Lars-B/pyccd@main
+./brokilon-0.2.0-py3-none-any.whl

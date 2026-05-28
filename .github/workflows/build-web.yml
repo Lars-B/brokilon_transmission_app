@@ -1,0 +1,61 @@
+name: Build Web App
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+env:
+  UV_PYTHON: 3.12
+  PYTHONUTF8: 1
+  FLET_CLI_NO_RICH_OUTPUT: 1
+  CI: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v6
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.41.7
+
+      - name: Install dependencies
+        run: |
+          uv venv
+          uv pip install flet
+          uv pip install -r requirements.txt
+
+      - name: Prep whl
+        run: |
+          mkdir -p build/flutter/assets
+          cp brokilon*.whl build/flutter/
+
+      - name: Build Web
+        run: |
+          uv run flet build web --verbose
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: web-build
+          path: build/web
+#  deploy:
+#    needs: build
+#    runs-on: ubuntu-latest
+#
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+#
+#    steps:
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v4
