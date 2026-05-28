@@ -91,37 +91,52 @@ def build_ui(page: ft.Page):
 
     # ---------------- UI ----------------
     page.add(
-        ft.Text("Brokilon Transmission App", size=22),
+        ft.Column([
+            ft.Row(
+                [
+                    ft.Text("Brokilon Transmission App", size=22),
 
-        ft.Row([
-            ft.ElevatedButton(
-                "Select Trees File",
-                on_click=pick_input
+                    ft.Container(expand=True),
+
+                    ft.Image(
+                        src="brokilon.png",
+                        width=48,
+                        height=48,
+                        fit=ft.BoxFit.CONTAIN,
+                    )
+                ],
             ),
-            selected_file,
-        ]),
 
-        ft.Row([
-            ft.ElevatedButton(
-                "Select Output File",
-                on_click=pick_output_file
+            ft.Row([
+                ft.ElevatedButton(
+                    "Select Trees File",
+                    on_click=pick_input
+                ),
+                selected_file,
+            ]),
+
+            ft.Row([
+                ft.ElevatedButton(
+                    "Select Output File",
+                    on_click=pick_output_file
+                ),
+                output_file,
+            ]),
+
+            burn_in,
+            date_sep,
+            date_format,
+            scale,
+
+            ft.ElevatedButton("Run Analysis", on_click=run_clicked),
+
+            progress,
+
+            ft.Container(
+                content=log_box,
+                height=250,
+                border_radius=10,
+                padding=10,
             ),
-            output_file,
-        ]),
-
-        burn_in,
-        date_sep,
-        date_format,
-        scale,
-
-        ft.ElevatedButton("Run Analysis", on_click=run_clicked),
-
-        progress,
-
-        ft.Container(
-            content=log_box,
-            height=250,
-            border_radius=10,
-            padding=10,
-        ),
+        ])
     )
