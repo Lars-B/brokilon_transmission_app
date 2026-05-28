@@ -6,8 +6,8 @@ A desktop application to run the `breath_helper` tool from the [`brokilon`](http
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Development](#development)
 - [Detailed Example](https://gist.github.com/Lars-B/0909ffde2938c6782273719fabf1bb06)
+- [Development](#development)
 
 ---
 
