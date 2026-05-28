@@ -108,7 +108,7 @@ def build_ui(page: ft.Page):
                     ft.Container(expand=True),
 
                     ft.Image(
-                        src="brokilon.png",
+                        src="icon.png",
                         width=48,
                         height=48,
                         fit=ft.BoxFit.CONTAIN,
