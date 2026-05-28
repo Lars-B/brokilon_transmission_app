@@ -1,4 +1,4 @@
-name: Build Flet macOS App
+name: Build App[MAC, WIN, LINUX]
 
 on:
   workflow_dispatch:
