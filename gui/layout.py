@@ -1,4 +1,5 @@
 import flet as ft
+
 from gui.logic import run_analysis_async
 
 
@@ -38,16 +39,20 @@ def build_ui(page: ft.Page):
         add_log(f"ERROR: {msg}")
 
     # ---------------- ACTIONS ----------------
-
     async def pick_input(_):
-        files = await file_picker.pick_files(allow_multiple=False)
+        files = await file_picker.pick_files(
+            allow_multiple=False,
+            allowed_extensions=["trees", "tre", "tree"],
+        )
 
-        if files:
-            selected_file.value = files[0].path
+        if not files:
+            selected_file.value = "No file selected"
             page.update()
-        else:
-            selected_file.value = "Cancelled"
-            page.update()
+            return
+
+        selected_file_path = files[0].path
+        selected_file.value = selected_file_path
+        page.update()
 
     async def pick_output_file(_):
         path = await file_picker.save_file(
@@ -66,8 +71,12 @@ def build_ui(page: ft.Page):
         log_box.value = ""
         progress.value = 0
 
-        if not selected_file.value:
+        if not selected_file.value or selected_file.value in ("", "Cancelled", "No file selected"):
             add_log("Select input file first")
+            return
+
+        if not output_file.value:
+            add_log("Select output file first")
             return
 
         params = {

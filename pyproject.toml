@@ -1,6 +1,7 @@
 [tool.flet]
 assets = ["assets"]
 icon = "assets/brokilon.png"
+product = "BREATH Helper App"
 
 [tool.flet.app]
 name = "Brokilon Transmission Helper"
